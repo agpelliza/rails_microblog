@@ -20,15 +20,12 @@ describe "User pages" do
   end
 
   describe "signup" do
-
-    before { visit signup_path }
-
     let(:submit) { "Create my account" }
+    before { visit signup_path }
 
     describe "with invalid information" do
 
       describe "after submission" do
-        
         before { click_button submit }
 
         it { should have_title('Sign up') }
@@ -41,22 +38,14 @@ describe "User pages" do
     end
 
     describe "with valid information" do
-      
-      before do
-        fill_in "Name",         with: "Example User"
-        fill_in "Email",        with: "user@example.com"
-        fill_in "Password",     with: "foobar"
-        fill_in "Confirmation", with: "foobar"
-      end
+      before { valid_signup_information }
 
       describe "after saving the user" do
-        
-        before { click_button submit }
-        
         let(:user) { User.find_by(email: 'user@example.com') }
+        before { click_button submit }
 
         it { should have_title(user.name) }
-        it { should have_selector('div.alert.alert-success', text: 'Welcome') }
+        it { should have_success_message('Welcome') }
       end
 
       it "should create a user" do
