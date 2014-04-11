@@ -52,4 +52,10 @@ module SessionsHelper
     condition = value[User.const_get :VALID_EMAIL_REGEX] ? :email : :username
     user = User.find_by(condition => value)
   end
+
+  def user_by_username_or_id
+    value = params[:username] ? params[:username].downcase : params[:id]
+    condition = params[:username] ? :username : :id
+    user = User.find_by(condition => value)
+  end
 end
