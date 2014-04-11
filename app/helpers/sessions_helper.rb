@@ -46,4 +46,10 @@ module SessionsHelper
   def store_location
     session[:return_to] = request.url if request.get?
   end
+
+  def user_by_username_or_email
+    value = params[:username_email].downcase
+    condition = value[User.const_get :VALID_EMAIL_REGEX] ? :email : :username
+    user = User.find_by(condition => value)
+  end
 end

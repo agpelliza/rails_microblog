@@ -45,6 +45,19 @@ describe "Authentication" do
         
         it { should have_link('Sign in') }
       end
+
+      describe "using email" do
+        before do
+          click_link "Sign out"
+          visit signin_path
+          fill_in "Username or Email",    with: user.email
+          fill_in "Password", with: user.password
+          click_button "Sign in"
+        end
+
+        it { should have_link('Sign out',    href: signout_path) }
+        it { should_not have_link('Sign in', href: signin_path) }
+      end
     end
   end
 
@@ -56,7 +69,7 @@ describe "Authentication" do
       describe "when attempting to visit a protected page" do
         before do
           visit edit_user_path(user)
-          fill_in "Email",    with: user.email
+          fill_in "Username or Email", with: user.username
           fill_in "Password", with: user.password
           click_button "Sign in"
         end
@@ -100,7 +113,7 @@ describe "Authentication" do
       describe "when attempting to visit a protected page" do
         before do
           visit edit_user_path(user)
-          fill_in "Email",    with: user.email
+          fill_in "Username or Email", with: user.email
           fill_in "Password", with: user.password
           click_button "Sign in"
         end
@@ -115,7 +128,7 @@ describe "Authentication" do
             before do
               click_link "Sign out"
               visit signin_path
-              fill_in "Email",    with: user.email
+              fill_in "Username or Email", with: user.email
               fill_in "Password", with: user.password
               click_button "Sign in"
             end

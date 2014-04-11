@@ -10,6 +10,7 @@ def full_title(page_title)
 end
 
 def valid_signup_information
+  fill_in "Username",     with: "example"
   fill_in "Name",         with: "Example User"
   fill_in "Email",        with: "user@example.com"
   fill_in "Password",     with: "foobar"
@@ -24,7 +25,7 @@ def sign_in(user, options={})
     user.update_attribute(:remember_token, User.hash(remember_token))
   else
     visit signin_path
-    fill_in "Email",    with: user.email
+    fill_in "Username or Email", with: user.username
     fill_in "Password", with: user.password
     click_button "Sign in"
   end

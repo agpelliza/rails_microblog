@@ -7,8 +7,12 @@ class User < ActiveRecord::Base
                                    dependent:   :destroy
   has_many :followers, through: :reverse_relationships, source: :follower
 
+  before_save { username.downcase! }
   before_save { email.downcase! }
   before_create :create_remember_token
+  validates :username, presence: true,
+                    length: { maximum: 20 },
+                    uniqueness: { case_sensitive: false }
   validates :name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(?:\.[a-z\d\-]+)*\.[a-z]+\z/i
   validates :email, presence:   true,
