@@ -4,6 +4,6 @@
   </span>
   <% if current_user?(object.user) %>
     <%= link_to "delete", object, method: :delete,
-                                     data: { confirm: "You sure?" },
+                                     data: { confirm: t(:confirmation) },
                                      title: object.content %>
   <% end %>
